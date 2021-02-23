@@ -30,7 +30,7 @@ The software is structered loosly around the Open System Interconnect Model (OSI
 
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 5
    :caption: Contents:
    :hidden:
 

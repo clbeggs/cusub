@@ -16,11 +16,13 @@ Keep in mind that this only launches the cortex. All other meta packages must be
 System Packages
 ###############
 .. toctree::
-    :hidden:
+    :titlesonly:
+    :caption: Contents: 
 
     config
     mapper
     mission_config
+    tasks
     state_machine
 
 :doc:`config package <config>`
@@ -40,6 +42,12 @@ All topics for cortex are placed under this namespace:
 ::
 
     <sub_name>/cusub_cortex/<topics>
+
+Launch files
+############
+
+* state_machine see :ref:`sm-launch-files`
+
 
 
 Known Issues

@@ -4,8 +4,8 @@ WaypointNavigator
 
 .. contents:: Contents
 
-.. class:: WaypointNavigator
-
+WaypointNavigator
+-----------------------
 
 * Parent class of :code:`WaypointActionServer`
 * Starts ROS node :code:`WaypointNavigator`
@@ -35,20 +35,32 @@ WaypointNavigator
 * :code:`toggleWaypointControl`
 :ref:`Message Types<message_types>`
 
+.. automodule:: WaypointNavigator
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+
+
 
 WaypointActionServer
 -----------------------
 
-.. class:: WaypointServer
-
 * Launched by :code:`waypoint_navigator.launch`, :code:`leviathan_sub.launch`
 * Starts ROS node :code:`waypoint_action_server`
+
+.. automodule:: WaypointActionServer
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 
 
 
 MagnetometerCalibrator
 -----------------------
-.. class:: MagnetometerCalibrator
+
 Calibrate magnetometer for uuv simulator.
 
 
@@ -64,6 +76,18 @@ Calibrate magnetometer for uuv simulator.
 * *service_name*, *service_class*
 * :code:`calibrateMagnetometer`
 :ref:`Message Types<message_types>`
+
+.. automodule:: MagnetometerCalibrator
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+.. automodule:: Prequal
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 
 .. _message_types:
 

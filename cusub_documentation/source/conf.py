@@ -16,59 +16,25 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
+import pytorch_sphinx_theme
 import os
 import sys
 import subprocess
+import rospy
+sys.path.insert(
+    0, '/home/epiphyte/robosub_ws/src/cusub/cusub_cortex/state_machine/scripts')
+
+sys.path.insert(
+    0, '/home/epiphyte/robosub_ws/src/cusub/cusub_cortex/state_machine/src/tasks')
+
+sys.path.insert(
+    0, u'/home/epiphyte/sub_py2/src/cusub/cusub_common/waypoint_navigator/src')
+
+
 """
 For Breathe and Doxygen documentation on readthedocs
 Ref: Breathe Documentation "RUNNING ON READ THE DOCS" (https://breathe.readthedocs.io/en/latest/readthedocs.html)
 """
-
-# -- Breathe Build for c++ documentation -----------------------------------------------------
-
-# Check if build directories exists, if not, create them.
-if not os.path.exists('../dox_build'):
-    os.makedirs('../dox_build')
-if not os.path.exists('../dox_build/xml'):
-    os.makedirs('../dox_build/xml')
-
-
-def run_doxygen(folder):
-    """Run the doxygen make command in the designated folder"""
-    try:
-        return_code = subprocess.call(
-            "cd %s; doxygen Doxyfile" % folder, shell=True
-            )
-        if return_code < 0:
-            sys.stderr.write("doxygen error: %s" % return_code)
-    except OSError as e:
-        sys.stderr.write("doxygen execution failed: %s" % e)
-
-
-# Generate doxygen xml
-run_doxygen("../")
-
-# Tell Breathe what projects to add
-breathe_projects = {
-    "localizer": os.path.abspath('../dox_build/xml/'),
-    "tracking": os.path.abspath('../dox_build/xml/'),
-    }
-breathe_default_project = "localizer"
-
-modulenames = set(sys.modules) & set(globals())
-allmodules = [sys.modules[name] for name in modulenames]
-print(allmodules)
-
-# -- Project information -----------------------------------------------------
-
-project = u'CU_RoboSub'
-copyright = u'2019, Jeff Venicx'
-author = u'Jeff Venicx'
-
-# The short X.Y version
-version = u''
-# The full version, including alpha/beta/rc tags
-release = u'0.0.1'
 
 # -- General configuration ---------------------------------------------------
 
@@ -80,9 +46,17 @@ release = u'0.0.1'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.intersphinx', 'sphinx.ext.viewcode', 'sphinx.ext.autodoc',
-    'sphinx.ext.napoleon', 'sphinx.ext.mathjax', 'breathe'
-    ]
+    'sphinx.ext.intersphinx',  # hyperlinks
+    'sphinx.ext.viewcode',     # highlighted source
+    'sphinx.ext.autodoc',      # Docs from docstrings
+    'sphinx.ext.autosummary',  # Generate autodoc summaries
+    'sphinx.ext.napoleon',     # Numpy and google docstrings
+    'sphinx.ext.todo',         # todo items
+    'sphinxcontrib.katex',     # Latex math
+    'breathe',                 # Doxygen-sphinx bridge
+    # 'exhale'                   # Better cpp docs
+]
+
 
 intersphinx_mapping = {'cusub_sim': ('~/robosub_ws/src/cusub_sim/', None)}
 
@@ -119,13 +93,81 @@ exclude_patterns = []
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = None
 
+# build the templated autosummary files
+autosummary_generate = True
+numpydoc_show_class_members = False
+
+# autosectionlabel throws warnings if section names are duplicated.
+# The following tells autosectionlabel to not throw a warning for
+# duplicated section names that are in different documents.
+autosectionlabel_prefix_document = True
+
+# katex options
+katex_prerender = True
+
+napoleon_use_ivar = True
+
+
+# -- Breathe Build for c++ documentation -----------------------------------------------------
+
+# Check if build directories exists, if not, create them.
+if not os.path.exists('../dox_build'):
+    os.makedirs('../dox_build')
+if not os.path.exists('../dox_build/xml'):
+    os.makedirs('../dox_build/xml')
+
+
+def run_doxygen(folder):
+    """Run the doxygen make command in the designated folder"""
+    try:
+        return_code = subprocess.call(
+            "cd %s; doxygen Doxyfile" % folder, shell=True
+        )
+        if return_code < 0:
+            sys.stderr.write("doxygen error: %s" % return_code)
+    except OSError as e:
+        sys.stderr.write("doxygen execution failed: %s" % e)
+
+
+# Generate doxygen xml
+run_doxygen("../")
+
+# Tell Breathe what projects to add
+breathe_projects = {
+    "localizer": os.path.abspath('../dox_build/xml/'),
+    "tracking": os.path.abspath('../dox_build/xml/'),
+}
+breathe_default_project = "localizer"
+
+modulenames = set(sys.modules) & set(globals())
+allmodules = [sys.modules[name] for name in modulenames]
+print(allmodules)
+
+# -- Project information -----------------------------------------------------
+
+project = u'CU_RoboSub'
+copyright = u'2019, Jeff Venicx'
+author = u'Jeff Venicx'
+
+# The short X.Y version
+version = u''
+# The full version, including alpha/beta/rc tags
+release = u'0.0.1'
+
+
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'sphinx_rtd_theme'
-
+html_theme = 'pytorch_sphinx_theme'
+html_theme_path = ["../themes/pytorch_sphinx_theme"]
+html_theme_options = {
+    'pytorch_project': 'docs',
+    'collapse_navigation': True,
+    'display_version': True,
+    'logo_only': True,
+}
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
@@ -170,7 +212,7 @@ latex_elements = {
     # Latex figure (float) alignment
     #
     # 'figure_align': 'htbp',
-    }
+}
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
@@ -179,8 +221,8 @@ latex_documents = [
     (
         master_doc, 'CU_RoboSub.tex', u'CU\\_RoboSub Documentation',
         u'Jeff Venicx', 'manual'
-        ),
-    ]
+    ),
+]
 
 # -- Options for manual page output ------------------------------------------
 
@@ -188,7 +230,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     (master_doc, 'cu_robosub', u'CU_RoboSub Documentation', [author], 1)
-    ]
+]
 
 # -- Options for Texinfo output ----------------------------------------------
 
@@ -199,8 +241,8 @@ texinfo_documents = [
     (
         master_doc, 'CU_RoboSub', u'CU_RoboSub Documentation', author,
         'CU_RoboSub', 'One line description of project.', 'Miscellaneous'
-        ),
-    ]
+    ),
+]
 
 # -- Options for Epub output -------------------------------------------------
 

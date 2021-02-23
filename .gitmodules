@@ -5,3 +5,6 @@
 [submodule "cusub_perception/darknet_ros/darknet"]
 	path = cusub_perception/darknet_ros/darknet
 	url = https://github.com/pjreddie/darknet
+[submodule "/home/epiphyte/sub_py2/src/cusub/cusub_documentation/themes/pytorch_sphinx_theme"]
+	path = /home/epiphyte/sub_py2/src/cusub/cusub_documentation/themes/pytorch_sphinx_theme
+	url = https://github.com/pytorch/pytorch_sphinx_theme.git
