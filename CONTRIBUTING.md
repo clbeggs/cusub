@@ -24,10 +24,12 @@ def foo_bar(arg1='default1', arg2='default2'):
 
         Longer description of the function.
         Can be extended over multiple lines.
+
         Katex Inline math example: :math:`f(x) = x^2 + \sin x`
+
         Katex math block example:
 
-        ..math::
+        .. math::
             g(x) = \cos x^2 - 1
 
 
